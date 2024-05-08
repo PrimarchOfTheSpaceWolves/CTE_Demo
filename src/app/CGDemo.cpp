@@ -36,6 +36,7 @@ struct PointLight {
 PointLight light;
 
 float roundAngle = 0;
+float LIGHT_SCALE = 5.0f;
 
 float rotAngle = 0;
 glm::vec3 eye = glm::vec3(0,3,5);
@@ -198,16 +199,16 @@ static void key_callback(GLFWwindow *window,
 			eye -= localX;
 		}
 		else if(key == GLFW_KEY_1) {
-			light.color = glm::vec4(1,1,1,1);
+			light.color = glm::vec4(LIGHT_SCALE,LIGHT_SCALE,LIGHT_SCALE,1);
 		}
 		else if(key == GLFW_KEY_2) {
-			light.color = glm::vec4(1,0,0,1);
+			light.color = glm::vec4(LIGHT_SCALE,0,0,1);
 		}
 		else if(key == GLFW_KEY_3) {
-			light.color = glm::vec4(0,1,0,1);
+			light.color = glm::vec4(0,LIGHT_SCALE,0,1);
 		}
 		else if(key == GLFW_KEY_4) {
-			light.color = glm::vec4(0,0,1,1);
+			light.color = glm::vec4(0,0,LIGHT_SCALE,1);
 		}
 
 		else if(key == GLFW_KEY_V) {
@@ -447,7 +448,7 @@ int main(int argc, char **argv) {
 
 	// Set up light details
 	light.pos = glm::vec4(5, 5, 5, 1.0);
-	light.color = glm::vec4(5,5,5,1);
+	light.color = glm::vec4(LIGHT_SCALE,LIGHT_SCALE,LIGHT_SCALE,1);
 		
 	// Enable depth testing
 	glEnable(GL_DEPTH_TEST);
