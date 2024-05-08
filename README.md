@@ -59,4 +59,33 @@ This will do the following:
 This script can be run while the C++ code is running.
 
 ## Compiling and Running the C++ Code
+In Visual Code:
+- Install the following extensions
+  - C/C++ Extension Pack
+  - Git Graph (optional, but neat)
 
+There should be commands that make building the executable fairly straightforward.  One caveat is that the executable should be run through the "Run and Debug" interface (select the appropriate run profile, defined in ```./vscode/launch.json```).
+
+If using a terminal:
+```
+mkdir build
+cd build
+cmake ..
+make
+cmake --install .
+cd ..
+```
+Then to run it:
+```
+./build/bin/CGDemo/CGDemo
+```
+
+This should launch an OpenGL window with the following controls:
+- **Mouse and WASD**: 3D navigation
+- **Escape**: Exit
+- **J/K**: Rotate objects locally around Z axis
+- **1/2/3/4**: Change light color
+- **V/B**: Make more metallic (material)
+- **N/M**: Make more rough (material) 
+- **T/Y**: Rotate teapots
+- **Space**: Recount images in ```face_images``` and generate appropriate teapots (one per face)

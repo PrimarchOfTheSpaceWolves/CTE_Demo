@@ -86,36 +86,39 @@ int updateTextures(vector<unsigned int> &allTexIDs) {
 
 	string path = "./face_images";
 	int texIndex = 0;
-    for(const auto & entry : fs::directory_iterator(path)) {
-        cout << "\t" << entry.path() << endl;
 
-		int twidth, theight, tnumc;
-    	stbi_set_flip_vertically_on_load(1);
-    	unsigned char* tex_image = stbi_load(entry.path().string().c_str(), &twidth, &theight, &tnumc, 0);
+	if(fs::exists(path)) {		
+		for(const auto & entry : fs::directory_iterator(path)) {
+			cout << "\t" << entry.path() << endl;
 
-    	if(tex_image) {
-			
-			GLenum format;
-			if(tnumc == 3) {
-				format = GL_RGB;
-				glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+			int twidth, theight, tnumc;
+			stbi_set_flip_vertically_on_load(1);
+			unsigned char* tex_image = stbi_load(entry.path().string().c_str(), &twidth, &theight, &tnumc, 0);
+
+			if(tex_image) {
+				
+				GLenum format;
+				if(tnumc == 3) {
+					format = GL_RGB;
+					glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+				}
+				else if(tnumc == 4) {
+					format = GL_RGBA;
+				}
+				
+				// Get texture ID and bind it
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, allTexIDs.at(texIndex));
+
+				// Copy in image data
+				glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, twidth, theight, format, GL_UNSIGNED_BYTE, tex_image);
+				
+				// Clean up data
+				stbi_image_free(tex_image);
+
+				// Increment index
+				texIndex++;
 			}
-			else if(tnumc == 4) {
-				format = GL_RGBA;
-			}
-			
-			// Get texture ID and bind it
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, allTexIDs.at(texIndex));
-
-			// Copy in image data
-			glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, twidth, theight, format, GL_UNSIGNED_BYTE, tex_image);
-			
-			// Clean up data
-    		stbi_image_free(tex_image);
-
-			// Increment index
-			texIndex++;
 		}
 	}
 
